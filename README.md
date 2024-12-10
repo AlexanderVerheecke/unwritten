@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Unwritten
 
-## Getting Started
+This is a simple Next.js application demonstrating a GET function that retreieves data through the Google Books API.
 
-First, run the development server:
+### 1. Clone the Repository
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Clone this repository to your local machine:
+
+### 2. Install dependencies
+
+Run `npm install` to install the required dependencies:
+
+### 3. Run the application
+
+Run the application with the command `npm run start` or ` npm run dev`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Information
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This application retrieves data from the Google Books API.
 
-## Learn More
+# Features
 
-To learn more about Next.js, take a look at the following resources:
+- Top 5 Books: Initially, the application fetches the top 5 books related to "scuba diving" from the Google Books API and displays them.
+- Search Books: Users can search for a book by title, and the application will display details of the first book that matches the query.
+- Error Handling: If an error occurs during data fetching or if no search results are found, appropriate error messages are displayed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js: A React framework for building web applications.
+- Axios: A promise-based HTTP client for making requests to the Google Books API.
