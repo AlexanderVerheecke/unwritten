@@ -42,13 +42,22 @@ const BookDirectory: React.FC = () => {
       setSearchError("Please enter a book title.");
       return;
     }
+
+    if (query.length > 100) {
+      setSearchError("Title is too long, limit to 100 characters.");
+      return;
+    }
     setSearchError(null);
 
     try {
       const response = await axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`
       );
-      setSearchResults(response.data.items ? response.data.items[0] : null);
+      if (response.status === 200) {
+        setSearchResults(response.data.items ? response.data.items[0] : null);
+      } else {
+        setSearchError("Failed to fetch books. Please try again.");
+      }
     } catch (err) {
       setSearchError("Failed to fetch books. Please try again.");
     }
