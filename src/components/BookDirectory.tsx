@@ -47,7 +47,7 @@ const BookDirectory: React.FC = () => {
       setSearchError("Title is too long, limit to 100 characters.");
       return;
     }
-    setSearchError(null);
+    setSearchError(null); 
 
     try {
       const response = await axios.get(
@@ -58,11 +58,22 @@ const BookDirectory: React.FC = () => {
       } else {
         setSearchError("Failed to fetch books. Please try again.");
       }
-    } catch (err) {
-      setSearchError("Failed to fetch books. Please try again.");
+    } catch (err: any) {
+      if (err.response) {
+        if (err.response.status === 404) {
+          setSearchError("No books found for this title.");
+        } else if (err.response.status === 500) {
+          setSearchError("The server encountered an error.");
+        } else {
+          setSearchError(
+            `Error: ${err.response.status} - ${err.response.statusText}`
+          );
+        }
+      } else {
+        setSearchError("An unexpected error occurred. Please try again.");
+      }
     }
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.leftSide}>
