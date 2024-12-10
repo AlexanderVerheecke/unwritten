@@ -17,6 +17,7 @@ interface Book {
 const BookDirectory: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [searchError, setSearchError] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<Book | null>(null);
   const [query, setQuery] = useState("");
 
@@ -35,24 +36,30 @@ const BookDirectory: React.FC = () => {
     fetchTopBooks();
   }, []);
 
+  // Search for a book
   const fetchBook = async () => {
+    if (!query.trim()) {
+      setSearchError("Please enter a book title.");
+      return;
+    }
+    setSearchError(null);
+
     try {
-      setError(null);
       const response = await axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`
       );
       setSearchResults(response.data.items ? response.data.items[0] : null);
     } catch (err) {
-      setError("Failed to fetch books. Please try again.");
+      setSearchError("Failed to fetch books. Please try again.");
     }
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.leftSide}>
         <h1 className={styles.title}>Top 5 Books</h1>
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : books.length === 0 ? (
+        {error && <p className={styles.error}>{error}</p>}
+        {books.length === 0 ? (
           <p>No books found.</p>
         ) : (
           <div className={styles.bookList}>
@@ -110,7 +117,7 @@ const BookDirectory: React.FC = () => {
             Search
           </button>
         </form>
-
+        {searchError && <p className={styles.error}>{searchError}</p>}{" "}
         {searchResults ? (
           <div className={styles.bookCard}>
             <div className={styles.bookInfo}>
