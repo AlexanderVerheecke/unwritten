@@ -26,7 +26,7 @@ const BookDirectory: React.FC = () => {
     const fetchTopBooks = async () => {
       try {
         const response = await axios.get(
-          `https://www.googleapis.com/books/v1/volumes?q=top+10&maxResults=10`
+          `https://www.googleapis.com/books/v1/volumes?q=scuba+divign&maxResults=5`
         );
         setBooks(response.data.items || []);
       } catch (err) {
