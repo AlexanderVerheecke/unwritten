@@ -7,10 +7,10 @@ import styles from "./BookDirectory.module.scss";
 interface Book {
   id: string;
   volumeInfo: {
-    title: string;
-    authors: string[];
-    description: string;
-    imageLinks?: { thumbnail: string };
+    title: string | null;
+    authors: string[] | null;
+    description: string | null;
+    imageLinks?: { thumbnail: string | null };
   };
 }
 
@@ -37,34 +37,44 @@ const BookDirectory: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.leftSide}>
         <h1 className={styles.title}>Top 5 Books</h1>
-
-        <div className={styles.bookList}>
-          {books.map((book) => (
-            <div key={book.id} className={styles.bookCard}>
-              <div className={styles.bookInfo}>
-                {book.volumeInfo.imageLinks?.thumbnail ? (
-                  <img
-                    src={book.volumeInfo.imageLinks.thumbnail}
-                    alt={book.volumeInfo.title}
-                    className={styles.thumbnail}
-                  />
-                ) : (
-                  <div className={styles.noImage}>No Image Available</div>
-                )}
-                <div className={styles.bookDetails}>
-                  <h2 className={styles.bookTitle}>{book.volumeInfo.title}</h2>
-                  <p className={styles.authors}>
-                    <strong>Author:</strong>{" "}
-                    {book.volumeInfo.authors?.join(", ")}
-                  </p>
-                  <p className={styles.description}>
-                    `${book.volumeInfo.description.substring(0, 100)}...`
-                  </p>
+        {error ? (
+          <p className={styles.error}>{error}</p>
+        ) : books.length === 0 ? (
+          <p>No books found.</p>
+        ) : (
+          <div className={styles.bookList}>
+            {books.map((book) => (
+              <div key={book.id} className={styles.bookCard}>
+                <div className={styles.bookInfo}>
+                  {book.volumeInfo.imageLinks?.thumbnail ? (
+                    <img
+                      src={book.volumeInfo.imageLinks.thumbnail}
+                      alt={book.volumeInfo.title || "No title available"}
+                      className={styles.thumbnail}
+                    />
+                  ) : (
+                    <div className={styles.noImage}>No Image Available</div>
+                  )}
+                  <div className={styles.bookDetails}>
+                    <h2 className={styles.bookTitle}>
+                      {book.volumeInfo.title || "No title available"}
+                    </h2>
+                    <p className={styles.authors}>
+                      <strong>Author:</strong>{" "}
+                      {book.volumeInfo.authors?.join(", ") ||
+                        "No authors available"}
+                    </p>
+                    <p className={styles.description}>
+                      {book.volumeInfo.description
+                        ? `${book.volumeInfo.description.substring(0, 100)}...`
+                        : "No description available."}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className={styles.rightSide}>
